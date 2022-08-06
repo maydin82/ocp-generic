@@ -1,0 +1,26 @@
+apiVersion: config.openshift.io/v1
+kind: OAuth
+metadata:
+  name: cluster
+spec:
+  identityProviders:
+  - ldap:
+      apiVersion: v1
+      attributes:
+        email:
+        - mail
+        id:
+        - uid
+        name:
+        - uid
+        preferredUsername:
+        - uid
+      bindDN: uid=binduser,cn=users,cn=accounts,dc=aydin,dc=lab
+      bindPassword:
+        name: ldap-secret
+      insecure: true
+      url: "ldap://idm.aydin.lab:389/cn=users,cn=accounts,dc=aydin,dc=lab?uid?sub?(&(objectclass=*)(memberOf=cn=grp-openshift,cn=groups,cn=accounts,dc=aydin,dc=lab))"
+    login: true
+    mappingMethod: claim
+    name: ldap_provider
+    type: LDAP

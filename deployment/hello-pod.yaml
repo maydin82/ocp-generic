@@ -1,0 +1,13 @@
+kind: Pod
+apiVersion: v1
+metadata:
+  name: hello-openshift
+  labels:
+    name: hello-openshift
+spec:
+  containers:
+  - name: hello-openshift
+    image: openshift/hello-openshift:v1.2.1
+    ports:
+    - containerPort: 8080
+      protocol: TCP

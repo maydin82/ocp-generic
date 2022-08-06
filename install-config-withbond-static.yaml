@@ -1,0 +1,450 @@
+apiVersion: v1
+baseDomain: refmobilecloud.ux.nl.tmo
+proxy:
+  httpProxy: http://10.254.102.198:3128
+  httpsProxy: http://10.254.102.198:3128
+  noProxy: refmobilecloud.ux.nl.tmo,10.254.164.0/24,10.254.165.0/24
+metadata:
+  name: ocp
+networking:
+  networkType: OVNKubernetes
+  machineNetwork:
+  - cidr: 10.254.164.0/24
+compute:
+- name: worker
+  replicas: 0 
+controlPlane:
+  name: master
+  replicas: 3
+  platform:
+    baremetal: {}
+platform:
+  baremetal:
+    bootstrapOSImage: http://10.254.164.100/rhcos-4.10.16-x86_64-qemu.x86_64.qcow2.gz?sha256=b8c16f94141c797a388ce50cff98c7c899b29dff7c3777a617fe5f9991078e5a
+    clusterOSImage: http://10.254.164.100/rhcos-4.10.16-x86_64-openstack.x86_64.qcow2.gz?sha256=15380a3debd92ccf466d98084938229133078c5634e4f926ed150a0c9f699375
+    apiVIP: 10.254.164.114
+    ingressVIP: 10.254.164.113
+    provisioningNetwork: "Disabled"
+    externalBridge: baremetal
+    hosts:
+      - name: master01.ocp.refmobilecloud.ux.nl.tmo
+        role: master
+        bmc:
+          address: redfish-virtualmedia://10.254.165.10/redfish/v1/Systems/1
+          username: refcloud
+          password: tdd-VAS1
+          disableCertificateVerification: True
+        bootMACAddress: 16:28:5C:A0:01:6D
+        rootDeviceHints:
+          deviceName: "/dev/sdb"
+        networkConfig: 
+          interfaces:
+          - name: bond0
+            type: bond
+            state: up
+            ipv4:
+              address: 
+              - ip: 10.254.164.101
+                prefix-length: 24
+              enabled: true
+            link-aggregation:
+              mode: active-backup
+              options:
+                miimon: '140'
+                primary: ens3f0
+              port:
+              - ens3f0
+              - ens3f1
+          dns-resolver:
+            config:
+              server:
+              - 10.254.102.120
+              - 10.254.102.121
+          routes:
+            config:
+            - destination: 0.0.0.0/0
+              next-hop-address: 10.254.164.1
+              next-hop-interface: ens3f0
+      - name: master02.ocp.refmobilecloud.ux.nl.tmo
+        role: master
+        bmc:
+          address: redfish-virtualmedia://10.254.165.45/redfish/v1/Systems/1
+          username: refcloud
+          password: tdd-VAS1
+          disableCertificateVerification: True
+        bootMACAddress: 16:28:5C:A0:02:13
+        rootDeviceHints:
+          deviceName: "/dev/sdb"
+        networkConfig: 
+          interfaces:
+          - name: bond0
+            type: bond
+            state: up
+            ipv4:
+              address: 
+              - ip: 10.254.164.102
+                prefix-length: 24
+              enabled: true
+            link-aggregation:
+              mode: active-backup
+              options:
+                miimon: '140'
+                primary: ens3f0
+              port:
+              - ens3f0
+              - ens3f1
+          dns-resolver:
+            config:
+              server:
+              - 10.254.102.120
+              - 10.254.102.121
+          routes:
+            config:
+            - destination: 0.0.0.0/0
+              next-hop-address: 10.254.164.1
+              next-hop-interface: ens3f0
+      - name: master03.ocp.refmobilecloud.ux.nl.tmo
+        role: master
+        bmc:
+          address: redfish-virtualmedia://10.254.165.46/redfish/v1/Systems/1
+          username: refcloud
+          password: tdd-VAS1
+          disableCertificateVerification: True
+        bootMACAddress:  16:28:5C:A0:02:1D
+        rootDeviceHints:
+          deviceName: "/dev/sdb"
+        networkConfig: 
+          interfaces:
+          - name: bond0
+            type: bond
+            state: up
+            ipv4:
+              address: 
+              - ip: 10.254.164.103
+                prefix-length: 24
+              enabled: true
+            link-aggregation:
+              mode: active-backup
+              options:
+                miimon: '140'
+                primary: ens3f0
+              port:
+              - ens3f0
+              - ens3f1
+          dns-resolver:
+            config:
+              server:
+              - 10.254.102.120
+              - 10.254.102.121
+          routes:
+            config:
+            - destination: 0.0.0.0/0
+              next-hop-address: 10.254.164.1
+              next-hop-interface: ens3f0
+      - name: worker01.ocp.refmobilecloud.ux.nl.tmo
+        role: worker
+        bmc:
+          address: redfish-virtualmedia://10.254.165.48/redfish/v1/Systems/1
+          username: refcloud
+          password: tdd-VAS1
+          disableCertificateVerification: True
+        bootMACAddress: 16:28:5C:A0:02:7D
+        rootDeviceHints:
+          deviceName: "/dev/sdb"
+        networkConfig: 
+          interfaces:
+          - name: bond0
+            type: bond
+            state: up
+            ipv4:
+              address: 
+              - ip: 10.254.164.107
+                prefix-length: 24
+              enabled: true
+            link-aggregation:
+              mode: active-backup
+              options:
+                miimon: '140'
+                primary: ens3f0
+              port:
+              - ens3f0
+              - ens3f1
+          dns-resolver:
+            config:
+              server:
+              - 10.254.102.120
+              - 10.254.102.121
+          routes:
+            config:
+            - destination: 0.0.0.0/0
+              next-hop-address: 10.254.164.1
+              next-hop-interface: ens3f0
+      - name: worker02.ocp.refmobilecloud.ux.nl.tmo
+        role: worker
+        bmc:
+          address: redfish-virtualmedia://10.254.165.50/redfish/v1/Systems/1
+          username: refcloud
+          password: tdd-VAS1
+          disableCertificateVerification: True
+        bootMACAddress: 16:28:5C:A0:02:83
+        rootDeviceHints:
+          deviceName: "/dev/sdb"
+        networkConfig: 
+          interfaces:
+          - name: bond0
+            type: bond
+            state: up
+            ipv4:
+              address: 
+              - ip: 10.254.164.108
+                prefix-length: 24
+              enabled: true
+            link-aggregation:
+              mode: active-backup
+              options:
+                miimon: '140'
+                primary: ens3f0
+              port:
+              - ens3f0
+              - ens3f1
+          dns-resolver:
+            config:
+              server:
+              - 10.254.102.120
+              - 10.254.102.121
+          routes:
+            config:
+            - destination: 0.0.0.0/0
+              next-hop-address: 10.254.164.1
+              next-hop-interface: ens3f0
+      - name: worker03.ocp.refmobilecloud.ux.nl.tmo
+        role: worker
+        bmc:
+          address: redfish-virtualmedia://10.254.165.24/redfish/v1/Systems/1
+          username: refcloud
+          password: tdd-VAS1
+          disableCertificateVerification: True
+        bootMACAddress: 16:28:5c:a0:02:8f
+        rootDeviceHints:
+          deviceName: "/dev/sdb"
+        networkConfig: 
+          interfaces:
+          - name: bond0
+            type: bond
+            state: up
+            ipv4:
+              address: 
+              - ip: 10.254.164.109
+                prefix-length: 24
+              enabled: true
+            link-aggregation:
+              mode: active-backup
+              options:
+                miimon: '140'
+                primary: ens3f0
+              port:
+              - ens3f0
+              - ens3f1
+          dns-resolver:
+            config:
+              server:
+              - 10.254.102.120
+              - 10.254.102.121
+          routes:
+            config:
+            - destination: 0.0.0.0/0
+              next-hop-address: 10.254.164.1
+              next-hop-interface: ens3f0      
+      - name: worker04.ocp.refmobilecloud.ux.nl.tmo
+        role: worker
+        bmc:
+          address: redfish-virtualmedia://10.254.165.32/redfish/v1/Systems/1
+          username: refcloud
+          password: tdd-VAS1
+          disableCertificateVerification: True
+        bootMACAddress: 16:28:5c:a0:02:95
+        rootDeviceHints:
+          deviceName: "/dev/sdb"
+        networkConfig: 
+          interfaces:
+          - name: bond0
+            type: bond
+            state: up
+            ipv4:
+              address: 
+              - ip: 10.254.164.110
+                prefix-length: 24
+              enabled: true
+            link-aggregation:
+              mode: active-backup
+              options:
+                miimon: '140'
+                primary: ens3f0
+              port:
+              - ens3f0
+              - ens3f1
+          dns-resolver:
+            config:
+              server:
+              - 10.254.102.120
+              - 10.254.102.121
+          routes:
+            config:
+            - destination: 0.0.0.0/0
+              next-hop-address: 10.254.164.1
+              next-hop-interface: ens3f0             
+      - name: worker05.ocp.refmobilecloud.ux.nl.tmo
+        role: worker
+        bmc:
+          address: redfish-virtualmedia://10.254.165.34/redfish/v1/Systems/1
+          username: refcloud
+          password: tdd-VAS1
+          disableCertificateVerification: True
+        bootMACAddress: 16:28:5c:a0:02:9b
+        rootDeviceHints:
+          deviceName: "/dev/sdb"
+        networkConfig: 
+          interfaces:
+          - name: bond0
+            type: bond
+            state: up
+            ipv4:
+              address: 
+              - ip: 10.254.164.111
+                prefix-length: 24
+              enabled: true
+            link-aggregation:
+              mode: active-backup
+              options:
+                miimon: '140'
+                primary: ens3f0
+              port:
+              - ens3f0
+              - ens3f1
+          dns-resolver:
+            config:
+              server:
+              - 10.254.102.120
+              - 10.254.102.121
+          routes:
+            config:
+            - destination: 0.0.0.0/0
+              next-hop-address: 10.254.164.1
+              next-hop-interface: ens3f0               
+      - name: infra01.ocp.refmobilecloud.ux.nl.tmo
+        role: worker
+        bmc:
+          address: redfish-virtualmedia://10.254.165.23/redfish/v1/Systems/1
+          username: refcloud
+          password: tdd-VAS1
+          disableCertificateVerification: True
+        bootMACAddress: 16:28:5C:A0:02:27
+        rootDeviceHints:
+          deviceName: "/dev/sdb"
+        networkConfig: 
+          interfaces:
+          - name: bond0
+            type: bond
+            state: up
+            ipv4:
+              address: 
+              - ip: 10.254.164.104
+                prefix-length: 24
+              enabled: true
+            link-aggregation:
+              mmode: active-backup
+              options:
+                miimon: '140'
+                primary: ens3f0
+              port:
+              - ens3f0
+              - ens3f1
+          dns-resolver:
+            config:
+              server:
+              - 10.254.102.120
+              - 10.254.102.121
+          routes:
+            config:
+            - destination: 0.0.0.0/0
+              next-hop-address: 10.254.164.1
+              next-hop-interface: ens3f0       
+      - name: infra02.ocp.refmobilecloud.ux.nl.tmo
+        role: worker
+        bmc:
+          address: redfish-virtualmedia://10.254.165.47/redfish/v1/Systems/1
+          username: refcloud
+          password: tdd-VAS1
+          disableCertificateVerification: True
+        bootMACAddress: 16:28:5C:A0:02:31
+        rootDeviceHints:
+          deviceName: "/dev/sdb"
+        networkConfig: 
+          interfaces:
+          - name: bond0
+            type: bond
+            state: up
+            ipv4:
+              address: 
+              - ip: 10.254.164.105
+                prefix-length: 24
+              enabled: true
+            link-aggregation:
+              mode: active-backup
+              options:
+                miimon: '140'
+                primary: ens3f0
+              port:
+              - ens3f0
+              - ens3f1
+          dns-resolver:
+            config:
+              server:
+              - 10.254.102.120
+              - 10.254.102.121
+          routes:
+            config:
+            - destination: 0.0.0.0/0
+              next-hop-address: 10.254.164.1
+              next-hop-interface: ens3f0
+      - name: infra03.ocp.refmobilecloud.ux.nl.tmo
+        role: worker
+        bmc:
+          address: redfish-virtualmedia://10.254.165.26/redfish/v1/Systems/1
+          username: refcloud
+          password: tdd-VAS1
+          disableCertificateVerification: True
+        bootMACAddress: 16:28:5C:A0:01:9D
+        rootDeviceHints:
+          deviceName: "/dev/sdb"
+        networkConfig: 
+          interfaces:
+          - name: bond0
+            type: bond
+            state: up
+            ipv4:
+              address: 
+              - ip: 10.254.164.106
+                prefix-length: 24
+              enabled: true
+            link-aggregation:
+              mode: active-backup
+              options:
+                miimon: '140'
+                primary: ens3f0
+              port:
+              - ens3f0
+              - ens3f1
+          dns-resolver:
+            config:
+              server:
+              - 10.254.102.120
+              - 10.254.102.121
+          routes:
+            config:
+            - destination: 0.0.0.0/0
+              next-hop-address: 10.254.164.1
+              next-hop-interface: ens3f0
+pullSecret: '{"auths":{"cloud.openshift.com":{"auth":"b3BlbnNoaWZ0LXJlbGVhc2UtZGV2K29jbV9hY2Nlc3NfZGNlNjdhYWQxZTEzNGNjZDk4YWU1NWYxMDY0MjkxNGE6RlA0OTdBV0syOTJXVkRQMlA5MEJHRTdER09SOE5aQ081NUs2T1BURlJaN09GUFVGMEZISDRRTENORkFMNVU5Rw==","email":"ashraf.hassan@t-mobile.nl"},"quay.io":{"auth":"b3BlbnNoaWZ0LXJlbGVhc2UtZGV2K29jbV9hY2Nlc3NfZGNlNjdhYWQxZTEzNGNjZDk4YWU1NWYxMDY0MjkxNGE6RlA0OTdBV0syOTJXVkRQMlA5MEJHRTdER09SOE5aQ081NUs2T1BURlJaN09GUFVGMEZISDRRTENORkFMNVU5Rw==","email":"ashraf.hassan@t-mobile.nl"},"registry.connect.redhat.com":{"auth":"fHVoYy1wb29sLWI0MDBmZGExLTI5ODQtNGU4OS04N2U5LTlmOTM1ZWRmODViZTpleUpoYkdjaU9pSlNVelV4TWlKOS5leUp6ZFdJaU9pSm1OakprWXpRMk1UTXlOV1kwTnpaaU9EQXpNV1k0TkdZeVlUSTBaRFZsWlNKOS5WVjQyUE5JUEJGUThqbGhKU2YxWmJRVXBvQTl3cDlfR3pqazhWTlRneU9tZDZBbnBBQk5TMTRNTG56RGdEai0wc3BNcmdaSFRlVUpQVW1NUW5LaUlNZnhUSU8xWVNiR3k3T25Fc0dSNFkxRFV2QUZubVo4c1ozY3QxQmxFMDBKY1hmcFNhUWJxOThGbHlvUDdlSVZyRjdNcmpJdGkwcTRoZHRnLTRYZzNkWmp6UW0tdjhFMmxTcVVFZ1ZLRHhIT3VLVzRnYmdEeXE4anlQTE10ODFaNUZTQV9xbDUzOWZTQlNHS0tRTFVKbEo5OHdldEZNSXN5dUUyU0ZaeW9aX2xiYnI5RG16NWhfQTZCM3NvdGhkMnVTU2V4OW9NUTZ6LVgtTk1zdl8wQlA4bmdOcEJMNHE0UnozaWp2UHphbnN5MkJRX0NBZWJBaXZjX05IWVkwY2Y4ZFM1OVI0SzNXSzJFRmtWclJwU3dDdDRxWVdXb0ZpYVJ5ODcxVm9JZFAwb0Q3bVA4N3doS0Fnd1EwV3BIZVdDeG44VHRNUm85X1dDd0ZsNkUyUXVuTW15cnRVek5IRDhJNXF3aVhjRHo2eVd0LW1EVEJBR1pjbnZPU1NabHp3X05VOXQ2WWFMQW1lcXFka0VTNzNkQy12dkVPaUkwT21uWWluQm5PdHlFc1hOVldIQnhlWnNmRF9WNHhIVXFrLW5ma3g4RTg0Ymo0d1VYZzJuWGhzMFQtN0NPWVBhVkljRmkxaFU1aGhrWXM2UFBEZ25rVkFvcnhHMEtBc2FUWV9WbklaeS02aWJ3V3hPWDZ1QmkzTGpMTGZfc2RzSFpkUXAxVDdTak1oVHJURTFsQmRCa21jdXNVcDZsWWlwLXRWUzdmS25tY2JzbmtNVWpFZ2habXp6eWwzUQ==","email":"ashraf.hassan@t-mobile.nl"},"registry.redhat.io":{"auth":"fHVoYy1wb29sLWI0MDBmZGExLTI5ODQtNGU4OS04N2U5LTlmOTM1ZWRmODViZTpleUpoYkdjaU9pSlNVelV4TWlKOS5leUp6ZFdJaU9pSm1OakprWXpRMk1UTXlOV1kwTnpaaU9EQXpNV1k0TkdZeVlUSTBaRFZsWlNKOS5WVjQyUE5JUEJGUThqbGhKU2YxWmJRVXBvQTl3cDlfR3pqazhWTlRneU9tZDZBbnBBQk5TMTRNTG56RGdEai0wc3BNcmdaSFRlVUpQVW1NUW5LaUlNZnhUSU8xWVNiR3k3T25Fc0dSNFkxRFV2QUZubVo4c1ozY3QxQmxFMDBKY1hmcFNhUWJxOThGbHlvUDdlSVZyRjdNcmpJdGkwcTRoZHRnLTRYZzNkWmp6UW0tdjhFMmxTcVVFZ1ZLRHhIT3VLVzRnYmdEeXE4anlQTE10ODFaNUZTQV9xbDUzOWZTQlNHS0tRTFVKbEo5OHdldEZNSXN5dUUyU0ZaeW9aX2xiYnI5RG16NWhfQTZCM3NvdGhkMnVTU2V4OW9NUTZ6LVgtTk1zdl8wQlA4bmdOcEJMNHE0UnozaWp2UHphbnN5MkJRX0NBZWJBaXZjX05IWVkwY2Y4ZFM1OVI0SzNXSzJFRmtWclJwU3dDdDRxWVdXb0ZpYVJ5ODcxVm9JZFAwb0Q3bVA4N3doS0Fnd1EwV3BIZVdDeG44VHRNUm85X1dDd0ZsNkUyUXVuTW15cnRVek5IRDhJNXF3aVhjRHo2eVd0LW1EVEJBR1pjbnZPU1NabHp3X05VOXQ2WWFMQW1lcXFka0VTNzNkQy12dkVPaUkwT21uWWluQm5PdHlFc1hOVldIQnhlWnNmRF9WNHhIVXFrLW5ma3g4RTg0Ymo0d1VYZzJuWGhzMFQtN0NPWVBhVkljRmkxaFU1aGhrWXM2UFBEZ25rVkFvcnhHMEtBc2FUWV9WbklaeS02aWJ3V3hPWDZ1QmkzTGpMTGZfc2RzSFpkUXAxVDdTak1oVHJURTFsQmRCa21jdXNVcDZsWWlwLXRWUzdmS25tY2JzbmtNVWpFZ2habXp6eWwzUQ==","email":"ashraf.hassan@t-mobile.nl"}}}'
+sshKey: 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDLQTmYJoExxnUcPJ2z66B/y47hEmFHM2PL6+gYzf1Xl5uZggrEjMgO7VFVsjPCQsR8w/B2W/UPRH4UZqHYsVSP+u4exhokE4mNhIJsP1VNvbEXzrWQNyqdrfX4zAao6oeGm99J5dvssuflT1Ao3BTmP7LWiuYKPiaLMoHfk/54T2T2kErvgMiV7uSZBozncvRYszQjgoLVjoIFUudI/ulk/ItqKbMay2N4eB0hNfgocXz22iiEfuS07M2Ofz/NG26+XYOWO2rsk1dvrI1ukAapXhH/NtnHvEz1chr2MDLcipuW1uZAAsIOqEFci84OTMj3LFtKD3qgLnDV58+amPiU5WdEqLPXMoW0R/0iDYMlO1cxe3EUEwywjaIQ40kw01YhImqA3q4vJJIM2CV4TJ0rqJ/PPYCO3SUx2JblfnS60im3qA0+1pw9j8dxEPwLLAp6jKY2TrLEhIrr3c/p5hDAjlh891CvAPIZledGGORbAJr7W6W1D+FasxZLESsCLc0= root@bootstrap01.ocp.refmobilecloud.ux.nl.tmo'
+

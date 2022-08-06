@@ -1,0 +1,24 @@
+kind: LDAPSyncConfig
+apiVersion: v1
+url: ldap://ldapbankanetnone.domain.bankanet.com.tr:389
+bindDN: "CN=svcocpadmin,OU=Users,OU=Applications,DC=domain,DC=bankanet,DC=com,DC=tr"
+bindPassword: "KLlEK6aJ"
+insecure: true
+augmentedActiveDirectory:
+    groupsQuery:
+        baseDN: "OU=INGBank OpenShift Security Groups,OU=INGBank Security Groups,OU=IngBankUsers,DC=domain,DC=bankanet,DC=com,DC=tr"
+        scope: sub
+        derefAliases: never
+        pageSize: 0
+    groupUIDAttribute: dn
+    groupNameAttributes: [ cn ]
+    usersQuery:
+        baseDN: "OU=ServerManagment,DC=domain,DC=bankanet,DC=com,DC=tr"
+        scope: sub
+        derefAliases: never
+        filter: (objectclass=user)
+        pageSize: 0
+    userNameAttributes: [ sAMAccountName ]
+    groupMembershipAttributes: [ memberOf ]
+    tolerateMemberNotFoundErrors: true
+    tolerateMemberOutOfScopeErrors: true

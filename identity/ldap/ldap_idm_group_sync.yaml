@@ -1,0 +1,25 @@
+kind: LDAPSyncConfig
+apiVersion: v1
+groupUIDNameMapping:
+  "cn=grp-openshift,cn=groups,cn=accounts,dc=aydin,dc=lab": OCPAdmins
+url: ldap://idm.aydin.lab:389
+bindDN: uid=binduser,cn=users,cn=accounts,dc=aydin,dc=lab
+bindPassword: redhat
+insecure: true
+rfc2307:
+    groupsQuery:
+        baseDN: "cn=groups,cn=accounts,dc=aydin,dc=lab" 
+        scope: sub
+        derefAliases: never
+        filter: (objectclass=groupOfNames)
+        pageSize: 0
+    groupUIDAttribute: dn
+    groupNameAttributes: [ cn ] 
+    groupMembershipAttributes: [ member ] 
+    usersQuery:
+        baseDN: "dc=aydin,dc=lab"
+        scope: sub
+        derefAliases: never
+        pageSize: 0
+    userUIDAttribute: dn 
+    userNameAttributes: [ uid ] 

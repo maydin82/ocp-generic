@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cluster-monitoring-config
+  namespace: openshift-monitoring
+data:
+  config.yaml: |
+    prometheusK8s:
+      volumeClaimTemplate:
+       spec:
+         accessModes:
+           - ReadWriteMany
+         storageClassName: ""
+         volumeName: monitoringnfs
+         resources:
+           requests:
+             storage: 15Gi

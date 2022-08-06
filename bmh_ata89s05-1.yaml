@@ -1,0 +1,490 @@
+apiVersion: metal3.io/v1alpha1
+kind: BareMetalHost
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"metal3.io/v1alpha1","kind":"BareMetalHost","metadata":{"annotations":{},"name":"ata89s05","namespace":"openshift-machine-api"},"spec":{"bmc":{"address":"idrac-virtualmedia://10.200.89.5/redfish/v1/Systems/System.Embedded.1","credentialsName":"ata89s05-bmc-secret","disableCertificateVerification":true},"bootMACAddress":"0C:42:A1:E6:01:7E","online":true,"rootDeviceHints":{"deviceName":"/dev/sda"}}}
+    reboot.metal3.io/capbm-requested-power-off: ""
+  creationTimestamp: "2021-02-19T12:48:01Z"
+  finalizers:
+  - baremetalhost.metal3.io
+  - machine.machine.openshift.io
+  generation: 2
+  labels:
+    type: dellrack
+  managedFields:
+  - apiVersion: metal3.io/v1alpha1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:annotations:
+          .: {}
+          f:kubectl.kubernetes.io/last-applied-configuration: {}
+      f:spec:
+        .: {}
+        f:bmc:
+          .: {}
+          f:address: {}
+          f:credentialsName: {}
+          f:disableCertificateVerification: {}
+        f:bootMACAddress: {}
+        f:online: {}
+        f:rootDeviceHints:
+          .: {}
+          f:deviceName: {}
+    manager: kubectl-client-side-apply
+    operation: Update
+    time: "2021-02-19T12:48:01Z"
+  - apiVersion: metal3.io/v1alpha1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:labels:
+          .: {}
+          f:type: {}
+    manager: kubectl-label
+    operation: Update
+    time: "2021-02-19T12:58:21Z"
+  - apiVersion: metal3.io/v1alpha1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:finalizers:
+          .: {}
+          v:"baremetalhost.metal3.io": {}
+      f:status:
+        .: {}
+        f:errorMessage: {}
+        f:goodCredentials:
+          .: {}
+          f:credentials:
+            .: {}
+            f:name: {}
+            f:namespace: {}
+          f:credentialsVersion: {}
+        f:hardware:
+          .: {}
+          f:cpu:
+            .: {}
+            f:arch: {}
+            f:clockMegahertz: {}
+            f:count: {}
+            f:flags: {}
+            f:model: {}
+          f:firmware:
+            .: {}
+            f:bios:
+              .: {}
+              f:date: {}
+              f:vendor: {}
+              f:version: {}
+          f:hostname: {}
+          f:nics: {}
+          f:ramMebibytes: {}
+          f:storage: {}
+          f:systemVendor:
+            .: {}
+            f:manufacturer: {}
+            f:productName: {}
+            f:serialNumber: {}
+        f:hardwareProfile: {}
+        f:lastUpdated: {}
+        f:operationHistory:
+          .: {}
+          f:deprovision:
+            .: {}
+            f:end: {}
+            f:start: {}
+          f:inspect:
+            .: {}
+            f:end: {}
+            f:start: {}
+          f:provision:
+            .: {}
+            f:end: {}
+            f:start: {}
+          f:register:
+            .: {}
+            f:end: {}
+            f:start: {}
+        f:operationalStatus: {}
+        f:poweredOn: {}
+        f:provisioning:
+          .: {}
+          f:ID: {}
+          f:bootMode: {}
+          f:image:
+            .: {}
+            f:checksum: {}
+            f:url: {}
+          f:rootDeviceHints:
+            .: {}
+            f:deviceName: {}
+          f:state: {}
+        f:triedCredentials:
+          .: {}
+          f:credentials:
+            .: {}
+            f:name: {}
+            f:namespace: {}
+          f:credentialsVersion: {}
+    manager: baremetal-operator
+    operation: Update
+    time: "2021-05-22T16:11:19Z"
+  - apiVersion: metal3.io/v1alpha1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:annotations:
+          f:reboot.metal3.io/capbm-requested-power-off: {}
+        f:finalizers:
+          v:"machine.machine.openshift.io": {}
+      f:spec:
+        f:consumerRef:
+          .: {}
+          f:apiVersion: {}
+          f:kind: {}
+          f:name: {}
+          f:namespace: {}
+        f:image:
+          .: {}
+          f:checksum: {}
+          f:url: {}
+        f:userData:
+          .: {}
+          f:name: {}
+          f:namespace: {}
+    manager: machine-controller-manager
+    operation: Update
+    time: "2021-05-27T22:09:46Z"
+  name: ata89s05
+  namespace: openshift-machine-api
+  resourceVersion: "336559566"
+  selfLink: /apis/metal3.io/v1alpha1/namespaces/openshift-machine-api/baremetalhosts/ata89s05
+  uid: 95b4f73a-603c-40b8-bddf-c20678c25585
+spec:
+  bmc:
+    address: idrac-virtualmedia://10.200.89.5/redfish/v1/Systems/System.Embedded.1
+    credentialsName: ata89s05-bmc-secret
+    disableCertificateVerification: true
+  bootMACAddress: 0C:42:A1:E6:01:7E
+  consumerRef:
+    apiVersion: machine.openshift.io/v1beta1
+    kind: Machine
+    name: ocpprod-qtzbp-dellrack-xwf7d
+    namespace: openshift-machine-api
+  image:
+    checksum: http://10.201.0.126:6180/images/rhcos-46.82.202011260640-0-openstack.x86_64.qcow2/rhcos-46.82.202011260640-0-compressed.x86_64.qcow2.md5sum
+    url: http://10.201.0.126:6180/images/rhcos-46.82.202011260640-0-openstack.x86_64.qcow2/rhcos-46.82.202011260640-0-compressed.x86_64.qcow2
+  online: true
+  rootDeviceHints:
+    deviceName: /dev/sda
+  userData:
+    name: worker-user-data
+    namespace: openshift-machine-api
+status:
+  errorCount: 0
+  errorMessage: ""
+  goodCredentials:
+    credentials:
+      name: ata89s05-bmc-secret
+      namespace: openshift-machine-api
+    credentialsVersion: "313423781"
+  hardware:
+    cpu:
+      arch: x86_64
+      clockMegahertz: 3900
+      count: 192
+      flags:
+      - 3dnowprefetch
+      - abm
+      - acpi
+      - adx
+      - aes
+      - aperfmperf
+      - apic
+      - arat
+      - arch_capabilities
+      - arch_perfmon
+      - art
+      - avx
+      - avx2
+      - avx512_vnni
+      - avx512bw
+      - avx512cd
+      - avx512dq
+      - avx512f
+      - avx512vl
+      - bmi1
+      - bmi2
+      - bts
+      - cat_l3
+      - cdp_l3
+      - clflush
+      - clflushopt
+      - clwb
+      - cmov
+      - constant_tsc
+      - cpuid
+      - cpuid_fault
+      - cqm
+      - cqm_llc
+      - cqm_mbm_local
+      - cqm_mbm_total
+      - cqm_occup_llc
+      - cx16
+      - cx8
+      - dca
+      - de
+      - ds_cpl
+      - dtes64
+      - dtherm
+      - dts
+      - epb
+      - ept
+      - ept_ad
+      - erms
+      - est
+      - f16c
+      - flexpriority
+      - flush_l1d
+      - fma
+      - fpu
+      - fsgsbase
+      - fxsr
+      - hle
+      - ht
+      - hwp
+      - hwp_act_window
+      - hwp_epp
+      - hwp_pkg_req
+      - ibpb
+      - ibrs
+      - ibrs_enhanced
+      - ida
+      - intel_ppin
+      - intel_pt
+      - invpcid
+      - invpcid_single
+      - lahf_lm
+      - lm
+      - mba
+      - mca
+      - mce
+      - md_clear
+      - mmx
+      - monitor
+      - movbe
+      - mpx
+      - msr
+      - mtrr
+      - nonstop_tsc
+      - nopl
+      - nx
+      - ospke
+      - pae
+      - pat
+      - pbe
+      - pcid
+      - pclmulqdq
+      - pdcm
+      - pdpe1gb
+      - pebs
+      - pge
+      - pku
+      - pln
+      - pni
+      - popcnt
+      - pse
+      - pse36
+      - pts
+      - rdrand
+      - rdseed
+      - rdt_a
+      - rdtscp
+      - rep_good
+      - sdbg
+      - sep
+      - smap
+      - smep
+      - smx
+      - ss
+      - ssbd
+      - sse
+      - sse2
+      - sse4_1
+      - sse4_2
+      - ssse3
+      - stibp
+      - syscall
+      - tm
+      - tm2
+      - tpr_shadow
+      - tsc
+      - tsc_adjust
+      - tsc_deadline_timer
+      - vme
+      - vmx
+      - vnmi
+      - vpid
+      - x2apic
+      - xgetbv1
+      - xsave
+      - xsavec
+      - xsaveopt
+      - xsaves
+      - xtopology
+      - xtpr
+      model: Intel(R) Xeon(R) Platinum 8260 CPU @ 2.40GHz
+    firmware:
+      bios:
+        date: 11/09/2020
+        vendor: Dell Inc.
+        version: 2.9.4
+    hostname: ata89s05.ocpprod.tmll.sahibindenlocal.net
+    nics:
+    - ip: fe80::63f:72ff:fec5:67f2%ens2f0
+      mac: 04:3f:72:c5:67:f2
+      model: 0x15b3 0x1015
+      name: ens2f0
+      pxe: false
+      speedGbps: 0
+      vlanId: 0
+    - ip: fe80::e42:a1ff:fee6:17f%eno2
+      mac: 0c:42:a1:e6:01:7f
+      model: 0x15b3 0x1015
+      name: eno2
+      pxe: false
+      speedGbps: 0
+      vlanId: 0
+    - ip: fe80::63f:72ff:fec5:67f3%ens2f1
+      mac: 04:3f:72:c5:67:f3
+      model: 0x15b3 0x1015
+      name: ens2f1
+      pxe: false
+      speedGbps: 0
+      vlanId: 0
+    - ip: 10.201.89.5
+      mac: 0c:42:a1:e6:01:7e
+      model: 0x15b3 0x1015
+      name: eno1
+      pxe: false
+      speedGbps: 0
+      vlanId: 0
+    ramMebibytes: 1572864
+    storage:
+    - hctl: "0:2:0:0"
+      model: PERC H740P Adp
+      name: /dev/sda
+      rotational: false
+      serialNumber: 62cea7f075d8140027badeb460099533
+      sizeBytes: 239444426752
+      vendor: DELL
+      wwn: "0x62cea7f075d81400"
+      wwnVendorExtension: "0x27badeb460099533"
+      wwnWithExtension: 0x62cea7f075d8140027badeb460099533
+    - model: Dell Express Flash NVMe P4610 3.2TB SFF
+      name: /dev/nvme0n1
+      rotational: false
+      serialNumber: PHLN035204PB3P2BGN
+      sizeBytes: 3200631791616
+      wwn: eui.01000000010000005cd2e4a2e97e5251
+      wwnWithExtension: eui.01000000010000005cd2e4a2e97e5251
+    - model: Dell Express Flash NVMe P4610 3.2TB SFF
+      name: /dev/nvme1n1
+      rotational: false
+      serialNumber: PHLN035202L43P2BGN
+      sizeBytes: 3200631791616
+      wwn: eui.01000000010000005cd2e43d937e5251
+      wwnWithExtension: eui.01000000010000005cd2e43d937e5251
+    - model: Dell Express Flash NVMe P4610 3.2TB SFF
+      name: /dev/nvme3n1
+      rotational: false
+      serialNumber: PHLN035201ZZ3P2BGN
+      sizeBytes: 3200631791616
+      wwn: eui.01000000010000005cd2e453c77e5251
+      wwnWithExtension: eui.01000000010000005cd2e453c77e5251
+    - model: Dell Express Flash NVMe P4610 3.2TB SFF
+      name: /dev/nvme2n1
+      rotational: false
+      serialNumber: PHLN035202ES3P2BGN
+      sizeBytes: 3200631791616
+      wwn: eui.01000000010000005cd2e4a13f7e5251
+      wwnWithExtension: eui.01000000010000005cd2e4a13f7e5251
+    - model: Dell Express Flash NVMe P4610 3.2TB SFF
+      name: /dev/nvme4n1
+      rotational: false
+      serialNumber: PHLN035202WQ3P2BGN
+      sizeBytes: 3200631791616
+      wwn: eui.01000000010000005cd2e400d67e5251
+      wwnWithExtension: eui.01000000010000005cd2e400d67e5251
+    - model: Dell Express Flash NVMe P4610 1.6TB SFF
+      name: /dev/nvme6n1
+      rotational: false
+      serialNumber: PHLN007201NF1P6AGN
+      sizeBytes: 1600321314816
+      wwn: eui.01000000010000005cd2e40fb7255251
+      wwnWithExtension: eui.01000000010000005cd2e40fb7255251
+    - model: Dell Express Flash NVMe P4610 1.6TB SFF
+      name: /dev/nvme7n1
+      rotational: false
+      serialNumber: PHLN007200N91P6AGN
+      sizeBytes: 1600321314816
+      wwn: eui.01000000010000005cd2e4fe96255251
+      wwnWithExtension: eui.01000000010000005cd2e4fe96255251
+    - model: Dell Express Flash NVMe P4610 3.2TB SFF
+      name: /dev/nvme5n1
+      rotational: false
+      serialNumber: PHLN0352020W3P2BGN
+      sizeBytes: 3200631791616
+      wwn: eui.01000000010000005cd2e46ec77e5251
+      wwnWithExtension: eui.01000000010000005cd2e46ec77e5251
+    - model: Dell Express Flash NVMe P4610 3.2TB SFF
+      name: /dev/nvme8n1
+      rotational: false
+      serialNumber: PHLN035202QC3P2BGN
+      sizeBytes: 3200631791616
+      wwn: eui.01000000010000005cd2e49dd57e5251
+      wwnWithExtension: eui.01000000010000005cd2e49dd57e5251
+    - model: Dell Express Flash NVMe P4610 3.2TB SFF
+      name: /dev/nvme9n1
+      rotational: false
+      serialNumber: PHLN035202WN3P2BGN
+      sizeBytes: 3200631791616
+      wwn: eui.01000000010000005cd2e4fed57e5251
+      wwnWithExtension: eui.01000000010000005cd2e4fed57e5251
+    systemVendor:
+      manufacturer: Dell Inc.
+      productName: PowerEdge R840 (SKU=07FC;ModelName=PowerEdge R840)
+      serialNumber: 7M5X783
+  hardwareProfile: unknown
+  lastUpdated: "2021-05-22T16:11:19Z"
+  operationHistory:
+    deprovision:
+      end: null
+      start: null
+    inspect:
+      end: "2021-02-19T12:56:54Z"
+      start: "2021-02-19T12:48:11Z"
+    provision:
+      end: "2021-02-19T13:10:11Z"
+      start: "2021-02-19T13:00:57Z"
+    register:
+      end: "2021-05-22T16:11:19Z"
+      start: "2021-05-22T16:11:17Z"
+  operationalStatus: OK
+  poweredOn: true
+  provisioning:
+    ID: 5777ec12-676f-4bf4-9541-10054d18a859
+    bootMode: UEFI
+    image:
+      checksum: http://10.201.0.126:6180/images/rhcos-46.82.202011260640-0-openstack.x86_64.qcow2/rhcos-46.82.202011260640-0-compressed.x86_64.qcow2.md5sum
+      url: http://10.201.0.126:6180/images/rhcos-46.82.202011260640-0-openstack.x86_64.qcow2/rhcos-46.82.202011260640-0-compressed.x86_64.qcow2
+    rootDeviceHints:
+      deviceName: /dev/sda
+    state: provisioned
+  triedCredentials:
+    credentials:
+      name: ata89s05-bmc-secret
+      namespace: openshift-machine-api
+    credentialsVersion: "313423781"

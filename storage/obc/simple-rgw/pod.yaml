@@ -1,0 +1,18 @@
+kind: Pod
+apiVersion: v1
+metadata:
+  name: hello-openshift
+  labels:
+    name: hello-openshift
+spec:
+  containers:
+  - name: hello-openshift
+    image: quay.io/bitnami/aws-cli
+    ports:
+    - containerPort: 8080
+      protocol: TCP
+    envFrom:
+      - configMapRef:
+          name: example-rgw
+      - secretRef:
+          name: example-rgw

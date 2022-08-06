@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: yaml-deploy
+spec:
+  selector:        ## burdaki selector replicaset için
+    matchLabels:
+      app: web-test
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: web-test
+    spec:
+      containers:
+      - name: web-test
+        image: image-registry.openshift-image-registry.svc:5000/openshift/httpd
+        ports:
+        - containerPort: 8080

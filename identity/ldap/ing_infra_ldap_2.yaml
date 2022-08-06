@@ -1,0 +1,27 @@
+apiVersion: config.openshift.io/v1
+kind: OAuth
+metadata:
+  name: cluster
+spec:
+  identityProviders:
+  - name: DOMAIN
+    mappingMethod: claim
+    type: LDAP
+    ldap:
+      attributes:
+        id:
+        - dn
+        email:
+        - mail
+        name:
+        - cn
+        preferredUsername:
+        - sAMAccountName
+      bindDN: "CN=svcocpadmin,OU=Users,OU=Applications,DC=domain,DC=bankanet,DC=com,DC=tr"
+      bindPassword:
+        name: ldap-secret
+#      ca:
+#        name: ca-config-map
+      insecure: true
+
+      url: "ldap://prevmbnkdc01.domain.bankanet.com.tr:389/DC=domain,DC=bankanet,DC=com,DC=tr?sAMAccountName"

@@ -1,0 +1,52 @@
+apiVersion: v1
+items:
+- apiVersion: machine.openshift.io/v1beta1
+  kind: MachineSet
+  metadata:
+    labels:
+      machine.openshift.io/cluster-api-cluster: ocppre-qsjfw
+    name: ocppre-qsjfw-infra
+    namespace: openshift-machine-api
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        machine.openshift.io/cluster-api-cluster: ocppre-qsjfw
+        machine.openshift.io/cluster-api-machineset: ocppre-qsjfw-infra
+    template:
+      metadata:
+        labels:
+          machine.openshift.io/cluster-api-cluster: ocppre-qsjfw
+          machine.openshift.io/cluster-api-machine-role: infra
+          machine.openshift.io/cluster-api-machine-type: infra
+          machine.openshift.io/cluster-api-machineset: ocppre-qsjfw-infra
+      spec:
+        metadata:
+          labels:
+            node-role.kubernetes.io/infra: ""
+        providerSpec:
+          value:
+            apiVersion: vsphereprovider.openshift.io/v1beta1
+            credentialsSecret:
+              name: vsphere-cloud-credentials
+            diskGiB: 250
+            kind: VSphereMachineProviderSpec
+            memoryMiB: 32768
+            metadata:
+              creationTimestamp: null
+            network:
+              devices:
+              - networkName: DC1.Nvds.PreRsfbb.Middle.452
+            numCPUs: 6
+            numCoresPerSocket: 1
+            snapshot: ""
+            template: ocppre-qsjfw-rhcos
+            userDataSecret:
+              name: worker-user-data
+            workspace:
+              datacenter: DC1.Datacenter
+              datastore: DC1.LOC.Pre-Rsfbb.NETAPP.13.TD
+              folder: /DC1.Datacenter/vm/DC1.FolderGroup.Container/DC1.FolderGroup.OCP.Pre/
+              resourcePool: /DC1.Datacenter/host/DC1.ClusterNonProd/DC1.PRERSFBB/Resources
+              server: dc1vmvcsva01.domain.bankanet.com.tr
+kind: List
