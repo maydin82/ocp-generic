@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: scc-pod-example
+spec:
+  serviceAccountName: testuser
+  containers:
+  - image: quay.io/centos/centos:latest
+    command: ["/bin/sleep", "3650d"]
+    name: test-pod
+    resources: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}
