@@ -1,0 +1,125 @@
+apiVersion: kubevirt.io/v1
+kind: VirtualMachine
+metadata:
+  annotations:
+    kubemacpool.io/transaction-timestamp: "2023-07-18T08:14:33.433171355Z"
+    kubevirt.io/latest-observed-api-version: v1
+    kubevirt.io/storage-observed-api-version: v1alpha3
+  creationTimestamp: "2023-07-18T07:57:02Z"
+  generation: 2
+  labels:
+    app: www1
+    flavor.template.kubevirt.io/small: "true"
+    kubevirt.io/vm: www1
+    os.template.kubevirt.io/rhel8.4: "true"
+    vm.kubevirt.io/template: rhel8-server-small
+    vm.kubevirt.io/template.namespace: openshift
+    vm.kubevirt.io/template.revision: "1"
+    vm.kubevirt.io/template.version: v0.16.2
+    workload.template.kubevirt.io/server: "true"
+  name: www1
+  namespace: ha-probe
+  resourceVersion: "559190"
+  uid: 223a42d8-aa07-40c8-8d2f-441247a3b325
+spec:
+  dataVolumeTemplates:
+  - apiVersion: cdi.kubevirt.io/v1beta1
+    kind: DataVolume
+    metadata:
+      creationTimestamp: null
+      name: www1
+    spec:
+      pvc:
+        accessModes:
+        - ReadWriteMany
+        resources:
+          requests:
+            storage: 10Gi
+        storageClassName: ocs-external-storagecluster-ceph-rbd
+        volumeMode: Block
+      source:
+        http:
+          url: http://utility.lab.example.com:8080/openshift4/images/helloworld.qcow2
+  runStrategy: RerunOnFailure
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        flavor.template.kubevirt.io/small: "true"
+        kubevirt.io/domain: www1
+        kubevirt.io/size: small
+        os.template.kubevirt.io/rhel8.4: "true"
+        tier: front
+        workload.template.kubevirt.io/server: "true"
+    spec:
+      domain:
+        cpu:
+          cores: 1
+          sockets: 1
+          threads: 1
+        devices:
+          disks:
+          - bootOrder: 1
+            disk:
+              bus: virtio
+            name: www1
+          - disk:
+              bus: virtio
+            name: cloudinitdisk
+          interfaces:
+          - macAddress: 02:ec:dd:00:00:04
+            masquerade: {}
+            name: default
+          networkInterfaceMultiqueue: true
+          rng: {}
+        machine:
+          type: pc-q35-rhel8.4.0
+        resources:
+          requests:
+            memory: 1Gi
+      evictionStrategy: LiveMigrate
+      hostname: www1
+      networks:
+      - name: default
+        pod: {}
+      readinessProbe:
+        failureThreshold: 2
+        httpGet:
+          path: /health
+          port: 80
+        initialDelaySeconds: 10
+        periodSeconds: 5
+        successThreshold: 1
+        timeoutSeconds: 2
+      terminationGracePeriodSeconds: 180
+      volumes:
+      - dataVolume:
+          name: www1
+        name: www1
+      - cloudInitNoCloud:
+          userDataBase64: IyEvYmluL2Jhc2gKZWNobyAiV2VsY29tZSB0byB3d3cxIiA+IC92YXIvd3d3L2h0bWwvaW5kZXguaHRtbApjaG1vZCA2NDQgL3Zhci93d3cvaHRtbC9pbmRleC5odG1sCgojIEZha2Ugc3RhdHVzIGVuZHBvaW50Cm1rZGlyIC92YXIvd3d3L2h0bWwvaGVhbHRoCmVjaG8gIk9LIiA+IC92YXIvd3d3L2h0bWwvaGVhbHRoL2luZGV4Lmh0bWwKY2htb2QgNzU1IC92YXIvd3d3L2h0bWwvaGVhbHRoCmNobW9kIDY0NCAvdmFyL3d3dy9odG1sL2hlYWx0aC9pbmRleC5odG1sCgpyZXN0b3JlY29uIC1SIC92YXIvd3d3L2h0bWw=
+        name: cloudinitdisk
+status:
+  conditions:
+  - lastProbeTime: null
+    lastTransitionTime: "2023-07-18T07:58:39Z"
+    status: "True"
+    type: Ready
+  - lastProbeTime: null
+    lastTransitionTime: null
+    status: "True"
+    type: LiveMigratable
+  - lastProbeTime: "2023-07-18T07:59:27Z"
+    lastTransitionTime: null
+    status: "True"
+    type: AgentConnected
+  created: true
+  printableStatus: Running
+  ready: true
+  volumeSnapshotStatuses:
+  - enabled: true
+    name: www1
+  - enabled: false
+    name: cloudinitdisk
+    reason: Snapshot is not supported for this volumeSource type [cloudinitdisk]
+

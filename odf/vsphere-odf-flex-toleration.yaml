@@ -1,0 +1,48 @@
+apiVersion: ocs.openshift.io/v1
+kind: StorageCluster
+metadata:
+  name: ocs-storagecluster
+  namespace: openshift-storage
+spec:
+  placement:
+    all:
+      tolerations:
+      - effect: NoSchedule
+        key: node-role.kubernetes.io/storage
+        operator: Equal
+        value: "true"
+    mds:
+      tolerations:
+      - effect: NoSchedule
+        key: node-role.kubernetes.io/storage
+        operator: Equal
+        value: "true"
+    noobaa-core:
+      tolerations:
+      - effect: NoSchedule
+        key: node-role.kubernetes.io/storage
+        operator: Equal
+        value: "true"
+    rgw:
+      tolerations:
+      - effect: NoSchedule
+        key: node-role.kubernetes.io/storage
+        operator: Equal
+        value: "true"
+  flexibleScaling: true
+  storageDeviceSets:
+  - config: {}
+    count: 3
+    dataPVCTemplate:
+      spec:
+        accessModes:
+        - ReadWriteOnce
+        resources:
+          requests:
+            storage: 50Gi
+        storageClassName: thin
+        volumeMode: Block
+    name: ocs-deviceset
+    portable: true
+    replica: 1
+    resources: {}
