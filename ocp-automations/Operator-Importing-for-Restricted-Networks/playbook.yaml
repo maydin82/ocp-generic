@@ -1,0 +1,25 @@
+---
+- hosts: localhost
+  vars:
+    index_image:  # Choose one of the following: redhat-operator/certified-operator/community-operator
+    index_image_version:  # cluster major version (with v prefix), e.g: v4.8
+    required_operator: # Operator name (partial ok), e.g: local/local-storage/local-storage-operator
+
+  tasks:
+  - block:
+    - include_role: 
+        name: deploy-local-registry
+      # You may change this credentials if you don't want the default docker repository credentials
+      vars:
+        user: "dummy"
+        password: "dummy"
+  
+    - include_role:
+        name: install-required-tools
+  
+    - include_role:
+        name: run-custom-index-container-and-mirror 
+  
+    always:
+    - include_role:
+        name: cleanup

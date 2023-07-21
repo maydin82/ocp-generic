@@ -1,0 +1,69 @@
+---
+# tasks file for prepare-index-image
+- name: "install skopeo"
+  yum:
+    name: skopeo
+    state: latest
+  become: yes
+
+- name: "check if opm already installed"
+  stat:
+    path: /usr/local/bin/opm
+  register: result_opm
+
+- name: "check if grpcurl already installed"
+  stat:
+    path: /usr/local/bin/grpcurl
+  register: result_grpcurl
+
+- name: "check if openshift client (oc) already installed"
+  stat:
+    path: /usr/local/bin/oc
+  register: result_oc
+
+- name: "Check latest grpcurl version"
+  shell: 'curl --silent https://github.com/fullstorydev/grpcurl/releases/latest | sed -r "s/^.*tag\/v(.*)\".*$/\1/"'
+  register: grpcurl_latest
+  changed_when: false
+  failed_when: false
+
+- name: "installing grpcurl v{{grpcurl_latest.stdout}}"
+  unarchive:
+    remote_src: yes
+    src: "https://github.com/fullstorydev/grpcurl/releases/download/v{{grpcurl_latest.stdout}}/grpcurl_{{grpcurl_latest.stdout}}_linux_x86_64.tar.gz"
+    dest: /usr/local/bin
+  when: result_grpcurl.stat.exists == false
+  register: test
+
+- debug:
+    msg: "{{test}}"
+
+- name: "Check latest opm version"
+  shell: 'curl --silent https://github.com/operator-framework/operator-registry/releases/latest | sed -r "s/^.*tag\/v(.*)\".*$/\1/"'
+  register: opm_latest
+  changed_when: false
+  failed_when: false
+
+- name: "installing opm v{{opm_latest.stdout}}"
+  get_url:
+    url: "https://github.com/operator-framework/operator-registry/releases/download/v{{opm_latest.stdout}}/linux-amd64-opm"
+    dest: "/usr/local/bin/opm"
+  when: result_opm.stat.exists == false
+
+- name: chmod opm
+  file:
+    path: /usr/local/bin/opm
+    mode: u=rwx,g=rx,o=rx
+
+- name: "Check latest oc {{index_image_version}} version"
+  shell: "curl --silent https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/latest-{{index_image_version|replace('v','')}}/ | grep 'name.*openshift-client-linux-.*.tar.gz' | sed -r 's/^.*openshift-client-linux-(.*).tar.gz.*$/\\1/'"
+  register: oc_latest
+  changed_when: false
+  failed_when: false
+
+- name: "installing openshift client (oc) v{{oc_latest.stdout}}"
+  unarchive:
+    remote_src: yes
+    src: "https://mirror.openshift.com/pub/openshift-v4/clients/ocp/latest-{{index_image_version|replace('v','')}}/openshift-client-linux-{{oc_latest.stdout}}.tar.gz"
+    dest: "/usr/local/bin"
+  when: result_oc.stat.exists == false
