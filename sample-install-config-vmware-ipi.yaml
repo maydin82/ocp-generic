@@ -1,0 +1,70 @@
+apiVersion: v1
+baseDomain: <example Domain Name>
+metadata:
+  name: <OpenShift Cluster Name>
+compute:
+- hyperthreading: Enabled
+  name: worker
+  replicas: 1
+  platform:
+      vsphere:
+        cpus: 16
+        coresPerSocket: 2
+        memoryMB: 49152
+        osDisk:
+          diskSizeGB: 120
+controlPlane:
+  hyperthreading: Enabled
+  name: master
+  replicas: 3
+  platform:
+    vsphere: 
+      cpus: 4
+      coresPerSocket: 2
+      memoryMB: 20480
+      osDisk:
+        diskSizeGB: 120
+networking:
+  clusterNetwork:
+  - cidr: 10.13.0.0/16
+    hostPrefix: 23
+  networkType: OpenShiftSDN
+  serviceNetwork:
+  - 10.14.0.0/16
+platform:
+  vsphere:
+    vcenter: <Vcenter name>.<example domain>
+    username: <Vcenter UserName>
+    password: <Vcenter Password>
+    datacenter: example_INJ
+    defaultDatastore: PMAX1-LCL-INT-00051-Lin-PROD-Openshift-INT
+    folder: "/example_INJ/vm/Unix VMs/Data Platform/PMAX1-LCL-INT-00051-Lin-Openshift-INT"
+    network: "PROD|PROD-AP|Openshift-Internal-EPG-P-50"
+    cluster: "Unix Cluster/example_INJ_EMC_Linux"
+    apiVIP: <API VIP IP Address>
+    ingressVIP: <Ingress VIP IP Address>
+pullSecret: '{"auths":{"<mirror server>.<OpenShift Cluster Name>.<example Domain Name>:5001":{"auth"}'
+sshKey: 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFAJUSe+jQLgi1Wm1H/FiwfFzumCdR1Mhr1olO0lltVB root@<mirror server>'
+additionalTrustBundle: |
+  -----BEGIN CERTIFICATE-----         
+  MIIDBzCCAe+gAwIBAgIQHNQDBxbbYKpIsj3TgUftQTANBgkqhkiG9w0BAQsFADAW
+
+  P3jMr+qxV1s5iQvS1sxHH7eipX7d4SgwL355/14ym6FD0JZdRVTlOrMXVJSFvPat
+  CQVjkwLiPRkyW097eenN+/pT9QI7qfMNo1r2KhJWKe2gEqZqdTSlwE90ueBW/fhE
+  V9qrTCGpvQH/788l42ETQ6KV3Lrol6e8fn8zI0568cr4FPiXAi2RfDXZf+n1iIOj
+  rwLcf/tiRWM2UpzJ/20a7Bnsz1JpRXcmEXRSZGb0XFX76WDVBhkyEZAeQuShlKwF
+  PnrTg01G5bB3h2w=
+  -----END CERTIFICATE-----
+  -----BEGIN CERTIFICATE-----                        
+  MIIE3TCCA8WgAwIBAgITaAAAAAJCbT1KAtT4nAAAAAAAAjANBgkqhkiG9w0BAQsF
+...
+  2DJIs3FBdakQo2yR+Zkbz4IzD8B3xNf8F4qwmFDtY3nmF0H8wlZkDYApB7fjqFxp
+  wQ==
+  -----END CERTIFICATE-----
+imageContentSources:
+- mirrors:
+  - <mirror server>.<OpenShift Cluster Name>.<example Domain Name>:5001/ocp4/openshift4
+  source: quay.io/openshift-release-dev/ocp-release
+- mirrors:
+  - <mirror server>.<OpenShift Cluster Name>.<example Domain Name>:5001/ocp4/openshift4
+  source: quay.io/openshift-release-dev/ocp-v4.0-art-dev
